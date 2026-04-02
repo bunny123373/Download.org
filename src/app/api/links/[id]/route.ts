@@ -52,8 +52,9 @@ export async function PUT(
     });
   } catch (error) {
     console.error('PUT /api/links/[id] error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { success: false, error: 'Failed to update link' },
+      { success: false, error: 'Failed to update link', details: errorMessage },
       { status: 500 }
     );
   }
@@ -83,8 +84,9 @@ export async function DELETE(
     });
   } catch (error) {
     console.error('DELETE /api/links/[id] error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { success: false, error: 'Failed to delete link' },
+      { success: false, error: 'Failed to delete link', details: errorMessage },
       { status: 500 }
     );
   }

@@ -75,8 +75,9 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('GET /api/links error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch links' },
+      { success: false, error: 'Failed to fetch links', details: errorMessage },
       { status: 500 }
     );
   }
@@ -114,8 +115,9 @@ export async function POST(request: NextRequest) {
     }, { status: 201 });
   } catch (error) {
     console.error('POST /api/links error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { success: false, error: 'Failed to create link' },
+      { success: false, error: 'Failed to create link', details: errorMessage },
       { status: 500 }
     );
   }
