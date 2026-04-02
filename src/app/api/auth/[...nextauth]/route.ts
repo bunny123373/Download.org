@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from 'next-auth';
+import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
@@ -29,5 +29,6 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET || 'fallback-secret-change-in-production',
 };
 
+import NextAuth from 'next-auth';
 const handler = NextAuth(authOptions);
-export default handler;
+export { handler as GET, handler as POST };
