@@ -10,6 +10,7 @@ export interface ILink extends Document {
   note: string;
   favorite: boolean;
   type: LinkType;
+  failed: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -48,6 +49,10 @@ const LinkSchema = new Schema<ILink>(
       type: String,
       enum: ['MP4', 'HLS', 'SUBTITLE', 'IMAGE', 'TOOL'],
       required: true,
+    },
+    failed: {
+      type: Boolean,
+      default: false,
     },
   },
   {

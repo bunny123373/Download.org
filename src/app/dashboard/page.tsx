@@ -12,7 +12,7 @@ import { Link } from '@/types';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { links, loading, stats, fetchLinks, deleteLink, toggleFavorite } = useLinks();
+  const { links, loading, stats, fetchLinks, deleteLink, toggleFavorite, toggleFailed } = useLinks();
   const [searchQuery, setSearchQuery] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
@@ -54,6 +54,14 @@ export default function DashboardPage() {
     router.push(`/add-link?edit=${link._id}`);
   };
 
+  const handleMarkFailed = async (id: string, failed: boolean) => {
+    await toggleFailed(id, failed);
+    setToast({ 
+      message: failed ? 'Link marked as failed' : 'Link marked as working', 
+      type: 'info' 
+    });
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar onSearch={handleSearch} onFilter={handleFilter} />
@@ -64,7 +72,7 @@ export default function DashboardPage() {
           <p className="text-sm md:text-base text-[var(--text-muted)]">Manage and organize your links</p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 mb-6 md:mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-6 mb-6 md:mb-8">
           <StatsCard
             icon="🔗"
             label="Total"
@@ -87,11 +95,18 @@ export default function DashboardPage() {
             index={2}
           />
           <StatsCard
+            icon="❌"
+            label="Failed"
+            value={stats?.failed || 0}
+            color="#ef4444"
+            index={3}
+          />
+          <StatsCard
             icon="🕐"
             label="Recent"
             value={stats?.recent || 0}
             color="#ec4899"
-            index={3}
+            index={4}
           />
         </div>
 
@@ -129,6 +144,7 @@ export default function DashboardPage() {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 onToggleFavorite={handleToggleFavorite}
+                onMarkFailed={handleMarkFailed}
               />
             ))}
           </div>

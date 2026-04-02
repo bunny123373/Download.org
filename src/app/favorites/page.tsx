@@ -11,7 +11,7 @@ import { Link } from '@/types';
 
 export default function FavoritesPage() {
   const router = useRouter();
-  const { links, loading, fetchLinks, deleteLink, toggleFavorite } = useLinks();
+  const { links, loading, fetchLinks, deleteLink, toggleFavorite, toggleFailed } = useLinks();
   const [searchQuery, setSearchQuery] = useState('');
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
 
@@ -49,6 +49,14 @@ export default function FavoritesPage() {
     router.push(`/add-link?edit=${link._id}`);
   };
 
+  const handleMarkFailed = async (id: string, failed: boolean) => {
+    await toggleFailed(id, failed);
+    setToast({ 
+      message: failed ? 'Link marked as failed' : 'Link marked as working', 
+      type: 'info' 
+    });
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar onSearch={handleSearch} showFilter={false} />
@@ -83,6 +91,7 @@ export default function FavoritesPage() {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 onToggleFavorite={handleToggleFavorite}
+                onMarkFailed={handleMarkFailed}
               />
             ))}
           </div>

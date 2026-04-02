@@ -9,6 +9,7 @@ export interface Link {
   note: string;
   favorite: boolean;
   type: LinkType;
+  failed: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -13,13 +13,14 @@ interface UseLinksReturn {
   updateLink: (id: string, data: Record<string, unknown>) => Promise<Link | null>;
   deleteLink: (id: string) => Promise<boolean>;
   toggleFavorite: (link: Link) => Promise<void>;
+  toggleFailed: (id: string, failed: boolean) => Promise<void>;
 }
 
 export function useLinks(): UseLinksReturn {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [stats, setStats] = useState<{ total: number; favorites: number; categories: number; recent: number } | null>(null);
+  const [stats, setStats] = useState<{ total: number; favorites: number; categories: number; recent: number; failed: number } | null>(null);
 
   const fetchLinks = useCallback(async (params: Record<string, string> = {}) => {
     setLoading(true);
@@ -114,6 +115,23 @@ export function useLinks(): UseLinksReturn {
     await updateLink(link._id, { favorite: !link.favorite });
   }, [updateLink]);
 
+  const toggleFailed = useCallback(async (id: string, failed: boolean) => {
+    try {
+      const res = await fetch(`/api/links/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ failed }),
+      });
+      const result = await res.json();
+      
+      if (result.success) {
+        setLinks(prev => prev.map(l => l._id === id ? { ...l, failed } : l));
+      }
+    } catch (err) {
+      console.error('Failed to toggle failed status:', err);
+    }
+  }, []);
+
   return {
     links,
     loading,
@@ -124,5 +142,6 @@ export function useLinks(): UseLinksReturn {
     updateLink,
     deleteLink,
     toggleFavorite,
+    toggleFailed,
   };
 }

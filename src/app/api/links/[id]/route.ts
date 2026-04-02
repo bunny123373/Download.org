@@ -12,7 +12,7 @@ export async function PUT(
     
     const { id } = await params;
     const body = await request.json();
-    const { title, url, category, tags, note, favorite } = body;
+    const { title, url, category, tags, note, favorite, failed } = body;
 
     const updateData: Record<string, unknown> = {};
 
@@ -20,6 +20,7 @@ export async function PUT(
     if (category !== undefined) updateData.category = category;
     if (note !== undefined) updateData.note = note;
     if (favorite !== undefined) updateData.favorite = favorite;
+    if (failed !== undefined) updateData.failed = failed;
     
     if (url !== undefined) {
       updateData.url = url;

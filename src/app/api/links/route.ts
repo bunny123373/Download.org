@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type') || '';
     const category = searchParams.get('category') || '';
     const favorite = searchParams.get('favorite');
+    const failed = searchParams.get('failed');
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '12');
 
@@ -37,6 +38,10 @@ export async function GET(request: NextRequest) {
       query.favorite = true;
     }
 
+    if (failed === 'true') {
+      query.failed = true;
+    }
+
     const skip = (page - 1) * limit;
     
     const [links, total] = await Promise.all([
@@ -55,6 +60,7 @@ export async function GET(request: NextRequest) {
       recent: await Link.countDocuments({
         createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }
       }),
+      failed: await Link.countDocuments({ failed: true }),
     };
 
     return NextResponse.json({
