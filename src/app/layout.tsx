@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
-import AuthProvider from "@/components/AuthProvider";
+import AuthCheck from "@/components/AuthCheck";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -30,12 +30,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
       <body className="min-h-full bg-[var(--bg-primary)]">
-        <AuthProvider>
-          <Sidebar />
-          <main className="lg:ml-[280px] min-h-screen">
-            {children}
-          </main>
-        </AuthProvider>
+        <Sidebar />
+        <main className="lg:ml-[280px] min-h-screen">
+          <AuthCheck>{children}</AuthCheck>
+        </main>
       </body>
     </html>
   );
