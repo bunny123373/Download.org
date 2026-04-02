@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import LinkForm from '@/components/LinkForm';
@@ -17,7 +17,7 @@ interface FormData {
   favorite: boolean;
 }
 
-export default function AddLinkPage() {
+function AddLinkContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { addLink, updateLink, fetchLinks, links } = useLinks();
@@ -41,7 +41,7 @@ export default function AddLinkPage() {
     setIsLoading(true);
     try {
       if (editingLink) {
-        const result = await updateLink(editingLink._id, data);
+        const result = await updateLink(editingLink._id, data as unknown as Record<string, unknown>);
         if (result) {
           setToast({ message: 'Link updated successfully!', type: 'success' });
           setTimeout(() => router.push('/dashboard'), 1500);
@@ -49,7 +49,7 @@ export default function AddLinkPage() {
           setToast({ message: 'Failed to update link', type: 'error' });
         }
       } else {
-        const result = await addLink(data);
+        const result = await addLink(data as unknown as Record<string, unknown>);
         if (result) {
           setToast({ message: 'Link added successfully!', type: 'success' });
           setTimeout(() => router.push('/dashboard'), 1500);
@@ -98,5 +98,32 @@ export default function AddLinkPage() {
         />
       )}
     </div>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen">
+      <Navbar showSearch={false} showFilter={false} />
+      <div className="p-8 max-w-2xl mx-auto">
+        <div className="glass-card p-8 animate-pulse">
+          <div className="skeleton h-6 w-1/3 mb-4" />
+          <div className="skeleton h-10 w-full mb-4" />
+          <div className="skeleton h-10 w-full mb-4" />
+          <div className="skeleton h-10 w-full mb-4" />
+          <div className="skeleton h-10 w-full mb-4" />
+          <div className="skeleton h-24 w-full mb-4" />
+          <div className="skeleton h-10 w-1/3" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function AddLinkPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <AddLinkContent />
+    </Suspense>
   );
 }

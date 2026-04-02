@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import { useLinks } from '@/hooks/useLinks';
-import { CATEGORIES, Link } from '@/types';
+import { CATEGORIES, Category } from '@/types';
 
-interface CategoryWithCount extends typeof CATEGORIES[number] {
+interface CategoryWithCount extends Category {
   count: number;
 }
 
