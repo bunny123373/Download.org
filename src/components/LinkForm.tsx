@@ -55,9 +55,9 @@ export default function LinkForm({ link, onSubmit, onCancel, isLoading = false }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
       <div>
-        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+        <label className="block text-xs md:text-sm font-medium text-[var(--text-secondary)] mb-1 md:mb-2">
           Title
         </label>
         <input
@@ -67,12 +67,12 @@ export default function LinkForm({ link, onSubmit, onCancel, isLoading = false }
           onChange={handleChange}
           required
           placeholder="Enter link title..."
-          className="glass-input w-full py-3 px-4"
+          className="glass-input w-full py-2 md:py-3 px-3 md:px-4 text-sm"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+        <label className="block text-xs md:text-sm font-medium text-[var(--text-secondary)] mb-1 md:mb-2">
           URL
         </label>
         <input
@@ -82,13 +82,13 @@ export default function LinkForm({ link, onSubmit, onCancel, isLoading = false }
           onChange={handleChange}
           required
           placeholder="https://example.com/link..."
-          className="glass-input w-full py-3 px-4"
+          className="glass-input w-full py-2 md:py-3 px-3 md:px-4 text-sm"
         />
         {detectedType && (
-          <div className="mt-2 flex items-center gap-2">
-            <span className="text-xs text-[var(--text-muted)]">Detected type:</span>
+          <div className="mt-1 md:mt-2 flex items-center gap-2">
+            <span className="text-[10px] md:text-xs text-[var(--text-muted)]">Type:</span>
             <span 
-              className="type-badge text-xs"
+              className="type-badge text-[10px] md:text-xs"
               style={{ 
                 backgroundColor: `${getTypeColor(detectedType)}20`,
                 color: getTypeColor(detectedType),
@@ -102,14 +102,14 @@ export default function LinkForm({ link, onSubmit, onCancel, isLoading = false }
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+        <label className="block text-xs md:text-sm font-medium text-[var(--text-secondary)] mb-1 md:mb-2">
           Category
         </label>
         <select
           name="category"
           value={formData.category}
           onChange={handleChange}
-          className="glass-input w-full py-3 px-4 cursor-pointer"
+          className="glass-input w-full py-2 md:py-3 px-3 md:px-4 cursor-pointer text-sm"
         >
           {categories.map(cat => (
             <option key={cat} value={cat}>{cat}</option>
@@ -118,21 +118,21 @@ export default function LinkForm({ link, onSubmit, onCancel, isLoading = false }
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
-          Tags (comma separated)
+        <label className="block text-xs md:text-sm font-medium text-[var(--text-secondary)] mb-1 md:mb-2">
+          Tags
         </label>
         <input
           type="text"
           name="tags"
           value={formData.tags}
           onChange={handleChange}
-          placeholder="action, adventure, 2024..."
-          className="glass-input w-full py-3 px-4"
+          placeholder="action, adventure..."
+          className="glass-input w-full py-2 md:py-3 px-3 md:px-4 text-sm"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+        <label className="block text-xs md:text-sm font-medium text-[var(--text-secondary)] mb-1 md:mb-2">
           Note
         </label>
         <textarea
@@ -140,30 +140,30 @@ export default function LinkForm({ link, onSubmit, onCancel, isLoading = false }
           value={formData.note}
           onChange={handleChange}
           rows={3}
-          placeholder="Add a note about this link..."
-          className="glass-input w-full py-3 px-4 resize-none"
+          placeholder="Add a note..."
+          className="glass-input w-full py-2 md:py-3 px-3 md:px-4 resize-none text-sm"
         />
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 md:gap-3">
         <input
           type="checkbox"
           name="favorite"
           id="favorite"
           checked={formData.favorite}
           onChange={handleChange}
-          className="w-5 h-5 rounded border-[var(--glass-border)] bg-[var(--glass)] text-[var(--accent-primary)] focus:ring-[var(--accent-primary)] focus:ring-offset-0"
+          className="w-4 h-4 md:w-5 md:h-5 rounded border-[var(--glass-border)] bg-[var(--glass)] text-[var(--accent-primary)]"
         />
-        <label htmlFor="favorite" className="text-sm text-[var(--text-secondary)]">
+        <label htmlFor="favorite" className="text-xs md:text-sm text-[var(--text-secondary)]">
           Add to favorites
         </label>
       </div>
 
-      <div className="flex gap-4 pt-4">
+      <div className="flex gap-2 md:gap-4 pt-2 md:pt-4">
         <button
           type="submit"
           disabled={isLoading}
-          className="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary flex-1 text-sm md:text-base py-2.5 md:py-3 disabled:opacity-50"
         >
           {isLoading ? (
             <span className="flex items-center justify-center gap-2">
@@ -171,13 +171,13 @@ export default function LinkForm({ link, onSubmit, onCancel, isLoading = false }
               Saving...
             </span>
           ) : (
-            link ? 'Update Link' : 'Add Link'
+            link ? 'Update' : 'Add Link'
           )}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          className="btn-secondary"
+          className="btn-secondary text-sm md:text-base py-2.5 md:py-3"
         >
           Cancel
         </button>

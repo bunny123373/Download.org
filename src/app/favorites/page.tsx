@@ -53,19 +53,19 @@ export default function FavoritesPage() {
     <div className="min-h-screen">
       <Navbar onSearch={handleSearch} showFilter={false} />
       
-      <div className="p-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">⭐ Favorites</h1>
-          <p className="text-[var(--text-muted)]">Your starred links</p>
+      <div className="p-4 md:p-6 lg:p-8">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-1 md:mb-2">⭐ Favorites</h1>
+          <p className="text-sm md:text-base text-[var(--text-muted)]">Your starred links</p>
         </div>
 
         {loading ? (
-          <SkeletonCard count={8} />
+          <SkeletonCard count={4} />
         ) : filteredLinks.length === 0 ? (
-          <div className="glass-card p-12 text-center">
-            <div className="text-6xl mb-4">⭐</div>
-            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No favorites yet</h3>
-            <p className="text-[var(--text-muted)] mb-6">Star links to add them to your favorites</p>
+          <div className="glass-card p-6 md:p-12 text-center">
+            <div className="text-4xl md:text-6xl mb-4">⭐</div>
+            <h3 className="text-lg md:text-xl font-semibold text-[var(--text-primary)] mb-2">No favorites yet</h3>
+            <p className="text-sm md:text-base text-[var(--text-muted)] mb-6">Star links to add them to your favorites</p>
             <button
               onClick={() => router.push('/dashboard')}
               className="btn-primary"
@@ -74,7 +74,7 @@ export default function FavoritesPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {filteredLinks.map((link, index) => (
               <LinkCard
                 key={link._id}

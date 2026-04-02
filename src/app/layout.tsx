@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
       <body className="min-h-full bg-[var(--bg-primary)]">
         <Sidebar />
-        <main className="ml-[280px] min-h-screen">
+        <main className="lg:ml-[280px] min-h-screen">
           {children}
         </main>
       </body>

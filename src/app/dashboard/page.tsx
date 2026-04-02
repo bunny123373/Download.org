@@ -58,16 +58,16 @@ export default function DashboardPage() {
     <div className="min-h-screen">
       <Navbar onSearch={handleSearch} onFilter={handleFilter} />
       
-      <div className="p-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">Dashboard</h1>
-          <p className="text-[var(--text-muted)]">Manage and organize your links</p>
+      <div className="p-4 md:p-6 lg:p-8">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-1 md:mb-2">Dashboard</h1>
+          <p className="text-sm md:text-base text-[var(--text-muted)]">Manage and organize your links</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 mb-6 md:mb-8">
           <StatsCard
             icon="🔗"
-            label="Total Links"
+            label="Total"
             value={stats?.total || 0}
             color="#6366f1"
             index={0}
@@ -88,30 +88,30 @@ export default function DashboardPage() {
           />
           <StatsCard
             icon="🕐"
-            label="Recent (7 days)"
+            label="Recent"
             value={stats?.recent || 0}
             color="#ec4899"
             index={3}
           />
         </div>
 
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-[var(--text-primary)]">Recent Links</h2>
+        <div className="flex items-center justify-between mb-4 md:mb-6">
+          <h2 className="text-lg md:text-xl font-semibold text-[var(--text-primary)]">Recent Links</h2>
           <button
             onClick={() => router.push('/add-link')}
-            className="btn-primary text-sm"
+            className="btn-primary text-xs md:text-sm px-3 md:px-4 py-2"
           >
-            ➕ Add New Link
+            ➕ Add
           </button>
         </div>
 
         {loading ? (
-          <SkeletonCard count={8} />
+          <SkeletonCard count={4} />
         ) : links.length === 0 ? (
-          <div className="glass-card p-12 text-center">
-            <div className="text-6xl mb-4">🔗</div>
-            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No links yet</h3>
-            <p className="text-[var(--text-muted)] mb-6">Start adding your first link to get organized</p>
+          <div className="glass-card p-6 md:p-12 text-center">
+            <div className="text-4xl md:text-6xl mb-4">🔗</div>
+            <h3 className="text-lg md:text-xl font-semibold text-[var(--text-primary)] mb-2">No links yet</h3>
+            <p className="text-sm md:text-base text-[var(--text-muted)] mb-6">Start adding your first link</p>
             <button
               onClick={() => router.push('/add-link')}
               className="btn-primary"
@@ -120,7 +120,7 @@ export default function DashboardPage() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {links.slice(0, 12).map((link, index) => (
               <LinkCard
                 key={link._id}

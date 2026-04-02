@@ -70,17 +70,17 @@ function AddLinkContent() {
     <div className="min-h-screen">
       <Navbar showSearch={false} showFilter={false} />
       
-      <div className="p-8 max-w-2xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">
+      <div className="p-4 md:p-6 lg:p-8 max-w-lg md:max-w-xl lg:max-w-2xl mx-auto">
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-[var(--text-primary)] mb-1 md:mb-2">
             {editingLink ? 'Edit Link' : 'Add New Link'}
           </h1>
-          <p className="text-[var(--text-muted)]">
+          <p className="text-sm md:text-base text-[var(--text-muted)]">
             {editingLink ? 'Update the link details below' : 'Add a new link to your collection'}
           </p>
         </div>
 
-        <div className="glass-card p-8">
+        <div className="glass-card p-4 md:p-6 lg:p-8">
           <LinkForm
             link={editingLink}
             onSubmit={handleSubmit}
@@ -105,8 +105,8 @@ function LoadingFallback() {
   return (
     <div className="min-h-screen">
       <Navbar showSearch={false} showFilter={false} />
-      <div className="p-8 max-w-2xl mx-auto">
-        <div className="glass-card p-8 animate-pulse">
+      <div className="p-4 md:p-6 lg:p-8 max-w-lg md:max-w-xl lg:max-w-2xl mx-auto">
+        <div className="glass-card p-4 md:p-6 lg:p-8 animate-pulse">
           <div className="skeleton h-6 w-1/3 mb-4" />
           <div className="skeleton h-10 w-full mb-4" />
           <div className="skeleton h-10 w-full mb-4" />
