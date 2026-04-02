@@ -10,6 +10,8 @@ export interface Link {
   favorite: boolean;
   type: LinkType;
   failed: boolean;
+  favicon: string;
+  deletedAt: string | null;
   createdAt: string;
   updatedAt: string;
 }

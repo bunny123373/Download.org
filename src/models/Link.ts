@@ -11,6 +11,8 @@ export interface ILink extends Document {
   favorite: boolean;
   type: LinkType;
   failed: boolean;
+  favicon: string;
+  deletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -53,6 +55,14 @@ const LinkSchema = new Schema<ILink>(
     failed: {
       type: Boolean,
       default: false,
+    },
+    favicon: {
+      type: String,
+      default: '',
+    },
+    deletedAt: {
+      type: Date,
+      default: null,
     },
   },
   {

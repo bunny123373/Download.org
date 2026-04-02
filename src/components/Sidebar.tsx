@@ -9,6 +9,7 @@ const navItems = [
   { href: '/add-link', label: 'Add Link', icon: '➕' },
   { href: '/categories', label: 'Categories', icon: '📁' },
   { href: '/favorites', label: 'Favorites', icon: '⭐' },
+  { href: '/trash', label: 'Trash', icon: '🗑️' },
   { href: '/settings', label: 'Settings', icon: '⚙️' },
 ];
 

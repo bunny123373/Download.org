@@ -67,9 +67,16 @@ export default function LinkCard({ link, onEdit, onDelete, onToggleFavorite, onM
         </div>
       </div>
 
-      <h3 className="text-sm md:text-base lg:text-lg font-semibold text-[var(--text-primary)] mb-1 md:mb-2 line-clamp-1">
-        {link.title}
-      </h3>
+      <div className="flex items-center gap-3 mb-2">
+        {link.favicon ? (
+          <img src={link.favicon} alt="" className="w-6 h-6 rounded" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
+        ) : (
+          <div className="w-6 h-6 rounded bg-[var(--bg-tertiary)] flex items-center justify-center text-xs">🔗</div>
+        )}
+        <h3 className="text-sm md:text-base lg:text-lg font-semibold text-[var(--text-primary)] line-clamp-1">
+          {link.title}
+        </h3>
+      </div>
 
       <p className={`text-xs md:text-sm mb-2 md:mb-3 line-clamp-1 md:line-clamp-2 font-mono ${link.failed ? 'text-[var(--error)]/70' : 'text-[var(--text-muted)]'}`}>
         {link.url}
@@ -85,13 +92,9 @@ export default function LinkCard({ link, onEdit, onDelete, onToggleFavorite, onM
       {link.tags && link.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 md:gap-2 mb-2 md:mb-3">
           {link.tags.slice(0, 3).map((tag, i) => (
-            <span key={i} className="tag-pill text-[10px] md:text-xs">
-              {tag}
-            </span>
+            <span key={i} className="tag-pill text-[10px] md:text-xs">{tag}</span>
           ))}
-          {link.tags.length > 3 && (
-            <span className="tag-pill text-[10px] md:text-xs">+{link.tags.length - 3}</span>
-          )}
+          {link.tags.length > 3 && <span className="tag-pill text-[10px] md:text-xs">+{link.tags.length - 3}</span>}
         </div>
       )}
 
@@ -102,22 +105,13 @@ export default function LinkCard({ link, onEdit, onDelete, onToggleFavorite, onM
       )}
 
       <div className="flex items-center gap-1 md:gap-2 pt-2 md:pt-3 border-t border-[var(--glass-border)]">
-        <button
-          onClick={handleCopy}
-          className="btn-icon flex-1 text-[10px] md:text-xs py-1.5 md:py-2"
-        >
+        <button onClick={handleCopy} className="btn-icon flex-1 text-[10px] md:text-xs py-1.5 md:py-2">
           {isCopied ? '✓' : '📋'}
         </button>
-        <button
-          onClick={() => onEdit(link)}
-          className="btn-icon flex-1 text-[10px] md:text-xs py-1.5 md:py-2"
-        >
+        <button onClick={() => onEdit(link)} className="btn-icon flex-1 text-[10px] md:text-xs py-1.5 md:py-2">
           ✏️
         </button>
-        <button
-          onClick={() => onDelete(link._id)}
-          className="btn-icon flex-1 text-[10px] md:text-xs py-1.5 md:py-2 hover:bg-[var(--error)]/20 hover:text-[var(--error)]"
-        >
+        <button onClick={() => onDelete(link._id)} className="btn-icon flex-1 text-[10px] md:text-xs py-1.5 md:py-2 hover:bg-[var(--error)]/20 hover:text-[var(--error)]">
           🗑️
         </button>
       </div>

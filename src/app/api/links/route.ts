@@ -13,6 +13,8 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category') || '';
     const favorite = searchParams.get('favorite');
     const failed = searchParams.get('failed');
+    const trashed = searchParams.get('trashed');
+    const sort = searchParams.get('sort') || 'newest';
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '12');
 
@@ -26,41 +28,45 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    if (type) {
-      query.type = type;
+    if (type) query.type = type;
+    if (category) query.category = category;
+    if (favorite === 'true') query.favorite = true;
+    if (failed === 'true') query.failed = true;
+    
+    if (trashed === 'true') {
+      query.deletedAt = { $ne: null };
+    } else {
+      query.deletedAt = null;
     }
 
-    if (category) {
-      query.category = category;
-    }
-
-    if (favorite === 'true') {
-      query.favorite = true;
-    }
-
-    if (failed === 'true') {
-      query.failed = true;
-    }
+    let sortOption = { createdAt: -1 };
+    if (sort === 'oldest') sortOption = { createdAt: 1 };
+    if (sort === 'az') sortOption = { title: 1 };
+    if (sort === 'za') sortOption = { title: -1 };
 
     const skip = (page - 1) * limit;
     
-    const [links, total] = await Promise.all([
-      Link.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
+    const [links, total, trashedCount] = await Promise.all([
+      Link.find(query).sort(sortOption).skip(skip).limit(limit),
       Link.countDocuments(query),
+      Link.countDocuments({ deletedAt: { $ne: null } }),
     ]);
 
     const categories = await Link.aggregate([
+      { $match: { deletedAt: null } },
       { $group: { _id: '$category', count: { $sum: 1 } } }
     ]);
 
     const stats = {
-      total,
-      favorites: await Link.countDocuments({ favorite: true }),
+      total: await Link.countDocuments({ deletedAt: null }),
+      favorites: await Link.countDocuments({ favorite: true, deletedAt: null }),
       categories: categories.length,
       recent: await Link.countDocuments({
-        createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }
+        createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
+        deletedAt: null
       }),
-      failed: await Link.countDocuments({ failed: true }),
+      failed: await Link.countDocuments({ failed: true, deletedAt: null }),
+      trashed: trashedCount,
     };
 
     return NextResponse.json({
@@ -98,6 +104,7 @@ export async function POST(request: NextRequest) {
     }
 
     const type = detectType(url);
+    const favicon = `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=64`;
 
     const link = await Link.create({
       title,
@@ -107,6 +114,7 @@ export async function POST(request: NextRequest) {
       note: note || '',
       favorite: favorite || false,
       type,
+      favicon,
     });
 
     return NextResponse.json({

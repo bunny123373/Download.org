@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-const publicPaths = ['/', '/auth/signin', '/signin'];
+const publicPaths = ['/', '/auth/signin', '/signin', '/trash'];
 
 export default function AuthCheck({ children }: { children: React.ReactNode }) {
   const router = useRouter();
