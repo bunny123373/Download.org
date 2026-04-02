@@ -7,7 +7,7 @@ interface UseLinksReturn {
   links: Link[];
   loading: boolean;
   error: string | null;
-  stats: { total: number; favorites: number; categories: number; recent: number } | null;
+  stats: { total: number; favorites: number; categories: number; recent: number; failed: number } | null;
   fetchLinks: (params?: Record<string, string>) => Promise<void>;
   addLink: (data: Record<string, unknown>) => Promise<Link | null>;
   updateLink: (id: string, data: Record<string, unknown>) => Promise<Link | null>;
